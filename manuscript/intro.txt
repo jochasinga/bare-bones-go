@@ -15,6 +15,8 @@ This book is constantly changing, and your feedbacks are welcomed to make the bo
 
 
 # 3. Getting Started
+This will be a bit boring, I know. But just bear with me so you don't run into basic setup problems later and kill the fun.
+
 ## 3.1 Command Line
 Go has a few Command Line Interfaces (CLI) up its sleeve from prettifying to running your code. You'll be spending a lot of time on the command line.
 
@@ -33,5 +35,92 @@ At the current time, Go is supported on almost all platforms:
 
 The easiest way is to head to the ![download page](https://golang.org/dl/), download the binary and and install. If you would like a step-by-step wizard-style guide, check out this ![excellent instruction](https://www.golang-book.com/guides/machine_setup) to set up everything you need to start.
 
-## 3.3 The Editor
+Now open the Terminal on Unix or the Command Line on Windows and type `go` to check if the command line tool is installed (it should spit out options for the tool instead saying "Command not found").
+
+## 3.3 Workspace and Directory
+
+Create a workspace for the Go projects. I created a directory named `go` under my `$HOME` directory, and inside it are three directories named `bin`, `pkg` and `src`. We'll be saving most of our code under `src`, but more about the nitty-gritty organization later. Just make sure your workspace looks similar to this:
+
+```bash
+
+$HOME
+└──go
+   ├── bin
+   ├── pkg
+   └── src
+
+```
+
+## 3.3 Environment Variables
+Go has an elegant way of managing external packages and recognizing your project path, but it works under a set of very crucial environment variables. Most newcomers to Go often stumble on several issues because of not setting these right. You can either type each into the command line, but it's better to include them in a startup file like `/etc/.profile`(for system-wide installation), `$HOME/.profile`, ``$HOME/.bash_profile` or `$HOME/.bashrc` on the Mac and Unix so the variables are set every time you log in.
+
+```bash
+
+$ export PATH=$PATH:/usr/local/go/bin
+$ export GOPATH=$HOME/go
+$ export GOBIN=$GOPATH/bin
+$ export PATH=$PATH:$GOBIN
+
+```
+
+>> **Note**: The `$` sign signifies command line prompt and is not part of the command. That means if you include the above lines in a shell startup file you
+>> shouldn't include them.
+
+On Windows, you may set environment variables through the "Environment Variables" button on the "Advanced" tab of the "System" control panel. Some versions of Windows provide this control panel through the "Advanced System Settings" option inside the "System" control panel.
+
+## 3.4 The Editor
 While an editor for any language is a matter of choice, on the previous instruction link you'll find a download link for ![Atom](https://atom.io/). Atom is a text editor from ![Github](https://github.com) with a really nice interface and decent plugin for Golang. Other choices include ![Textmate](https://macromates.com/) (for Mac OS X), ![Sublime](http://www.sublimetext.com/), and ![LiteIDE](https://github.com/visualfc/liteide), which is dedicated for Go. Optionally, you can use Vim or Emacs if you don't want to switch between your command line application and the IDE.
+
+## 3.5 Test the installation
+Inside the `$HOME/go/src` create more directories `github.com/yourusername/helloworld`
+
+```bash
+
+$HOME
+└──go
+   ├── bin
+   ├── pkg
+   └── src
+       └── github.com
+           └──yourusername
+              └──helloworld
+
+```
+
+This is how Go manage packages, and it's a best practice. If you're using another SVN like bitbucket, just replace "github.com" with "bitbucket.org" and use your user name as the name of the inner directory. The inner-most directory is `helloworld`.
+
+Using your editor of choice, create a new file called `helloworld.go`
+
+```go
+
+package main
+
+import "fmt"
+
+func main() {
+    fmt.Println("hello, world!")
+}
+
+```
+
+Save it in `$HOME/go/src/github.com/yourusername/helloworld` directory. Then compile it with the `go` tool:
+
+```bash
+
+$ go install github.com/yourusername/helloworld
+
+```
+
+Go is a compiled language, and it compiles every chunk of code into executable binary (that's why it's fast!). You should see an executable file under the `bin` directory in your workspace. Try running it with the tool:
+
+```bash
+
+$ $GOPATH/bin/helloworld
+
+```
+
+If the console prints out "hello, world!" then you're good to go.
+
+Grab a cup of coffee, because we are going to roll!
+
+>> **Note**: Unlike Ruby, Python or Javascript, Go always compile the code. Even when you use `go run helloworld.go` without installing it, it actually compiles the code into a temporary executable before running it.
